@@ -1,277 +1,621 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="auto">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="RBOT Electronics - Your trusted destination for quality electronic components and modules in Palakkad, Kerala. Arduino, ESP32, sensors, and more.">
     <title>RBOT Electronics | Electronic Components in Palakkad</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,600,1,0&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
     <style>
-        .material-symbols-rounded {
-            font-variation-settings: 'FILL' 1, 'wght' 600, 'GRAD' 0, 'opsz' 48;
-            font-family: 'Material Symbols Rounded';
-            font-size: 24px;
-            line-height: 1;
-            text-rendering: optimizeLegibility;
-            -webkit-font-smoothing: antialiased;
-            display: inline-flex;
-            vertical-align: middle;
+        /* ── THEME TOKENS ───────────────────────────────── */
+        :root {
+            --accent: #0094c7;
+            --accent-2: #00c4f0;
+            --accent-glow: rgba(0,148,199,.25);
+            --sq: 28px; /* squircle radius */
+
+            /* light defaults */
+            --bg: #f0f4f8;
+            --bg-2: #e4eaf2;
+            --surface: #ffffff;
+            --surface-2: #f7f9fc;
+            --border: rgba(0,0,0,.08);
+            --text: #0f1923;
+            --text-2: #4a5a6b;
+            --text-3: #7a8a9b;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,.06);
+            --shadow-md: 0 6px 24px rgba(0,0,0,.09);
+            --shadow-lg: 0 16px 48px rgba(0,0,0,.13);
+            --hero-bg: linear-gradient(140deg,#0f1923 0%,#1a2d40 60%,#0a3550 100%);
         }
 
-        .whatsapp-icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 24px;
-            height: 24px;
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #0a0f16;
+                --bg-2: #111820;
+                --surface: #141c26;
+                --surface-2: #1a2535;
+                --border: rgba(255,255,255,.07);
+                --text: #e8f0f8;
+                --text-2: #8aa0b8;
+                --text-3: #5a7080;
+                --shadow-sm: 0 2px 8px rgba(0,0,0,.3);
+                --shadow-md: 0 6px 24px rgba(0,0,0,.4);
+                --shadow-lg: 0 16px 48px rgba(0,0,0,.5);
+                --hero-bg: linear-gradient(140deg,#050a10 0%,#0d1a28 60%,#071b2e 100%);
+            }
+        }
+
+        /* ── RESET ─────────────────────────────────────── */
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+        body{font-family:'DM Sans',sans-serif;font-size:16px;line-height:1.65;color:var(--text);background:var(--bg);overflow-x:hidden;transition:background .3s,color .3s}
+
+        /* ── MATERIAL ICONS ─────────────────────────────── */
+        .material-symbols-rounded{
+            font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 48;
+            font-family:'Material Symbols Rounded';line-height:1;
+            text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;
+            display:inline-flex;vertical-align:middle;
+        }
+
+        /* ── UTILITY ────────────────────────────────────── */
+        .container{max-width:1100px;margin:0 auto;padding:0 20px}
+        .section{padding:88px 20px}
+        .section-label{
+            display:inline-flex;align-items:center;gap:8px;
+            font-family:'Syne',sans-serif;font-size:.75rem;font-weight:700;
+            letter-spacing:.14em;text-transform:uppercase;color:var(--accent);
+            margin-bottom:14px;
+        }
+        .section-title{
+            font-family:'Syne',sans-serif;font-size:clamp(1.8rem,4vw,2.8rem);
+            font-weight:800;color:var(--text);line-height:1.15;margin-bottom:16px;
+        }
+        .section-subtitle{font-size:1.05rem;color:var(--text-2);max-width:540px;margin-bottom:52px}
+
+        /* ── SQUIRCLE ───────────────────────────────────── */
+        .sq{border-radius:var(--sq)}
+        .sq-sm{border-radius:16px}
+        .sq-lg{border-radius:36px}
+
+        /* ── BUTTONS ────────────────────────────────────── */
+        .btn{
+            display:inline-flex;align-items:center;gap:10px;
+            padding:13px 26px;border-radius:14px;font-family:'Syne',sans-serif;
+            font-weight:700;font-size:.95rem;letter-spacing:.02em;cursor:pointer;
+            border:none;text-decoration:none;transition:all .25s cubic-bezier(.4,0,.2,1);
+            position:relative;overflow:hidden;white-space:nowrap;
+        }
+        .btn-primary{
+            background:linear-gradient(135deg,var(--accent),var(--accent-2));
+            color:#fff;box-shadow:0 4px 20px var(--accent-glow);
+        }
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 32px var(--accent-glow);filter:brightness(1.08)}
+        .btn-secondary{
+            background:var(--surface);color:var(--accent);
+            border:1.5px solid var(--border);box-shadow:var(--shadow-sm);
+        }
+        .btn-secondary:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px)}
+        .btn-dark{background:var(--surface-2);color:var(--text);border:1.5px solid var(--border)}
+        .btn-dark:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px)}
+        .btn-ghost{background:transparent;color:var(--text-2);border:1.5px solid var(--border)}
+        .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+        /* whatsapp icon inline */
+        .wa-icon{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;flex-shrink:0}
+
+        /* ── HERO ────────────────────────────────────────── */
+        .hero{
+            background:var(--hero-bg);color:#fff;
+            padding:100px 20px 120px;position:relative;overflow:hidden;
+        }
+        .hero-mesh{
+            position:absolute;inset:0;pointer-events:none;
+            background:radial-gradient(ellipse 70% 60% at 80% 20%,rgba(0,148,199,.18) 0%,transparent 70%),
+                        radial-gradient(ellipse 50% 50% at 10% 80%,rgba(0,196,240,.12) 0%,transparent 60%);
+        }
+        .hero-grid{
+            position:absolute;inset:0;pointer-events:none;
+            background-image:linear-gradient(rgba(0,148,199,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(0,148,199,.06) 1px,transparent 1px);
+            background-size:48px 48px;
+            mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 40%,transparent 100%);
+        }
+        .hero .container{position:relative;z-index:1;text-align:center}
+        .hero-badge{
+            display:inline-flex;align-items:center;gap:8px;
+            background:rgba(0,148,199,.15);border:1px solid rgba(0,148,199,.3);
+            color:var(--accent-2);border-radius:99px;
+            padding:6px 16px;font-size:.8rem;font-weight:600;letter-spacing:.05em;
+            margin-bottom:28px;backdrop-filter:blur(8px);
+        }
+        .hero-badge-dot{width:7px;height:7px;background:#2ecc71;border-radius:50%;animation:pulse-dot 2s ease infinite}
+        @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(1.4)}}
+        .hero h1{
+            font-family:'Syne',sans-serif;font-size:clamp(2.4rem,7vw,4.5rem);
+            font-weight:800;line-height:1.05;letter-spacing:-.02em;
+            margin-bottom:20px;
+            animation:fadeUp .7s ease both;
+        }
+        .hero h1 span{
+            background:linear-gradient(135deg,var(--accent),var(--accent-2));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+        .hero-sub{
+            font-size:clamp(1rem,2.5vw,1.2rem);color:rgba(255,255,255,.7);
+            margin-bottom:44px;max-width:480px;margin-left:auto;margin-right:auto;
+            animation:fadeUp .7s .15s ease both;
+        }
+        .hero-buttons{
+            display:flex;gap:14px;justify-content:center;flex-wrap:wrap;
+            animation:fadeUp .7s .3s ease both;
+        }
+        .hero-stats{
+            display:flex;gap:40px;justify-content:center;flex-wrap:wrap;
+            margin-top:72px;padding-top:48px;
+            border-top:1px solid rgba(255,255,255,.08);
+            animation:fadeUp .7s .45s ease both;
+        }
+        .stat-item{text-align:center}
+        .stat-num{font-family:'Syne',sans-serif;font-size:1.9rem;font-weight:800;color:#fff}
+        .stat-label{font-size:.8rem;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.08em;margin-top:2px}
+
+        @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+        /* ── GALLERY ─────────────────────────────────────── */
+        .gallery-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:0}
+        .gallery-item{
+            position:relative;border-radius:var(--sq);overflow:hidden;
+            box-shadow:var(--shadow-md);transition:transform .4s cubic-bezier(.4,0,.2,1),box-shadow .4s;
+        }
+        .gallery-item:hover{transform:translateY(-6px) scale(1.01);box-shadow:var(--shadow-lg)}
+        .gallery-item img{width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s ease}
+        .gallery-item:hover img{transform:scale(1.06)}
+        .gallery-item-overlay{
+            position:absolute;inset:0;
+            background:linear-gradient(to top,rgba(0,0,0,.5) 0%,transparent 60%);
+            opacity:0;transition:opacity .3s;
+            display:flex;align-items:flex-end;padding:20px;
+        }
+        .gallery-item:hover .gallery-item-overlay{opacity:1}
+        .gallery-item-label{font-family:'Syne',sans-serif;font-size:.85rem;font-weight:700;color:#fff;letter-spacing:.05em}
+
+        /* ── ABOUT ───────────────────────────────────────── */
+        .about-layout{
+            display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;
+        }
+        .about-image-wrap{
+            position:relative;border-radius:var(--sq);overflow:hidden;
+            box-shadow:var(--shadow-lg);
+        }
+        .about-image-wrap img{width:100%;height:420px;object-fit:cover;display:block}
+        .about-image-badge{
+            position:absolute;bottom:20px;left:20px;right:20px;
+            background:rgba(15,25,35,.85);backdrop-filter:blur(12px);
+            border:1px solid rgba(255,255,255,.1);border-radius:16px;
+            padding:16px 20px;display:flex;align-items:center;gap:14px;
+        }
+        .badge-icon{
+            width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+            border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;
+            color:#fff;font-size:20px;
+        }
+        .badge-text-top{font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;color:#fff}
+        .badge-text-bot{font-size:.8rem;color:rgba(255,255,255,.55)}
+
+        .about-features{display:flex;flex-direction:column;gap:14px;margin-top:36px}
+        .feature-item{
+            display:flex;align-items:center;gap:14px;
+            background:var(--surface);border:1px solid var(--border);
+            border-radius:16px;padding:16px 20px;
+            box-shadow:var(--shadow-sm);transition:all .25s;
+        }
+        .feature-item:hover{border-color:var(--accent);transform:translateX(6px);box-shadow:var(--shadow-md)}
+        .feature-icon{
+            width:40px;height:40px;min-width:40px;
+            background:linear-gradient(135deg,rgba(0,148,199,.12),rgba(0,196,240,.08));
+            border-radius:12px;display:flex;align-items:center;justify-content:center;
+            color:var(--accent);font-size:20px;
+        }
+        .feature-text{font-size:.93rem;font-weight:500;color:var(--text)}
+
+        /* ── MAP / LOCATION ──────────────────────────────── */
+        .location-layout{display:grid;grid-template-columns:1fr 1.3fr;gap:28px;align-items:start}
+        .info-card{
+            background:var(--surface);border:1px solid var(--border);
+            border-radius:var(--sq);padding:36px;box-shadow:var(--shadow-md);
+        }
+        .info-row{display:flex;gap:16px;align-items:flex-start;margin-bottom:28px}
+        .info-row:last-of-type{margin-bottom:0}
+        .info-icon{
+            width:44px;height:44px;min-width:44px;
+            background:linear-gradient(135deg,rgba(0,148,199,.12),rgba(0,196,240,.08));
+            border-radius:14px;display:flex;align-items:center;justify-content:center;
+            color:var(--accent);font-size:22px;
+        }
+        .info-label{font-family:'Syne',sans-serif;font-size:.78rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text-3);margin-bottom:4px}
+        .info-val{font-size:.95rem;color:var(--text-2);line-height:1.5}
+        .info-val a{color:var(--accent);font-weight:600;text-decoration:none}
+        .map-wrap{border-radius:var(--sq);overflow:hidden;box-shadow:var(--shadow-md);height:420px}
+        .map-wrap iframe{width:100%;height:100%;border:none;display:block}
+
+        /* ── CATEGORIES ──────────────────────────────────── */
+        .categories-grid{
+            display:grid;grid-template-columns:repeat(3,1fr);gap:20px;
+        }
+        .cat-card{
+            background:var(--surface);border:1px solid var(--border);
+            border-radius:var(--sq);padding:32px 24px;
+            box-shadow:var(--shadow-sm);transition:all .3s cubic-bezier(.4,0,.2,1);
+            position:relative;overflow:hidden;
+        }
+        .cat-card::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:3px;
+            background:linear-gradient(90deg,var(--accent),var(--accent-2));
+            opacity:0;transition:opacity .3s;
+        }
+        .cat-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:transparent}
+        .cat-card:hover::before{opacity:1}
+        .cat-icon{
+            width:52px;height:52px;
+            background:linear-gradient(135deg,rgba(0,148,199,.15),rgba(0,196,240,.08));
+            border-radius:16px;display:flex;align-items:center;justify-content:center;
+            color:var(--accent);font-size:26px;margin-bottom:20px;
+            transition:transform .3s;
+        }
+        .cat-card:hover .cat-icon{transform:scale(1.12) rotate(4deg)}
+        .cat-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:8px}
+        .cat-desc{font-size:.9rem;color:var(--text-2);line-height:1.6;margin:0}
+
+        /* ── CONTACT ─────────────────────────────────────── */
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:720px;margin:0 auto}
+        .contact-card{
+            background:var(--surface);border:1px solid var(--border);
+            border-radius:var(--sq);padding:40px 32px;text-align:center;
+            box-shadow:var(--shadow-sm);transition:all .3s cubic-bezier(.4,0,.2,1);
+        }
+        .contact-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
+        .contact-icon-wrap{
+            width:64px;height:64px;
+            background:linear-gradient(135deg,rgba(0,148,199,.15),rgba(0,196,240,.08));
+            border-radius:20px;display:flex;align-items:center;justify-content:center;
+            margin:0 auto 20px;color:var(--accent);font-size:32px;
+            transition:transform .3s;
+        }
+        .contact-card:hover .contact-icon-wrap{transform:scale(1.1) rotate(-4deg)}
+        .contact-card h3{font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;color:var(--text);margin-bottom:8px}
+        .contact-card p{font-size:.9rem;color:var(--text-2);margin-bottom:24px}
+        .contact-card .btn{width:100%;justify-content:center}
+
+        /* ── AVAILABILITY BANNER ─────────────────────────── */
+        .availability-banner{
+            background:linear-gradient(135deg,var(--accent) 0%,var(--accent-2) 100%);
+            border-radius:var(--sq);padding:48px 40px;text-align:center;
+            position:relative;overflow:hidden;box-shadow:0 12px 48px var(--accent-glow);
+        }
+        .availability-banner::before{
+            content:'';position:absolute;top:-40%;right:-10%;
+            width:300px;height:300px;border-radius:50%;
+            background:rgba(255,255,255,.08);pointer-events:none;
+        }
+        .availability-banner h3{font-family:'Syne',sans-serif;font-size:1.7rem;font-weight:800;color:#fff;margin-bottom:10px}
+        .availability-banner p{color:rgba(255,255,255,.82);font-size:1rem;margin-bottom:28px;max-width:440px;margin-left:auto;margin-right:auto}
+        .availability-banner .btn{background:#fff;color:var(--accent);font-weight:700}
+        .availability-banner .btn:hover{background:rgba(255,255,255,.9);transform:translateY(-2px)}
+
+        /* ── FOOTER ──────────────────────────────────────── */
+        footer{
+            background:var(--hero-bg);color:#fff;
+            padding:60px 20px 90px;margin-top:0;
+        }
+        .footer-inner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px}
+        .footer-brand{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:#fff;margin-bottom:8px}
+        .footer-addr{font-size:.9rem;color:rgba(255,255,255,.5);line-height:1.8}
+        .footer-addr a{color:var(--accent-2);font-weight:600;text-decoration:none}
+        .footer-divider{width:60px;height:2px;background:rgba(255,255,255,.15);border-radius:2px;margin:28px auto}
+        .footer-tag{font-size:.8rem;color:rgba(255,255,255,.3);letter-spacing:.04em}
+
+        /* ── STICKY BAR (mobile) ─────────────────────────── */
+        .sticky-bar{
+            position:fixed;bottom:0;left:0;right:0;
+            background:var(--surface);border-top:1px solid var(--border);
+            padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+            display:flex;gap:10px;z-index:1000;
+            box-shadow:0 -4px 24px rgba(0,0,0,.1);
+        }
+        .sticky-bar .btn{flex:1;justify-content:center;padding:13px 10px;font-size:.9rem}
+        @media(min-width:768px){.sticky-bar{display:none}}
+
+        /* ── DECORATIVE SECTION DIVIDER ──────────────────── */
+        .divider{
+            height:1px;background:linear-gradient(90deg,transparent,var(--border) 30%,var(--border) 70%,transparent);
+            margin:0;
+        }
+
+        /* ── RESPONSIVE ──────────────────────────────────── */
+        @media(max-width:900px){
+            .categories-grid{grid-template-columns:repeat(2,1fr)}
+            .about-layout{grid-template-columns:1fr}
+            .about-image-wrap{order:-1}
+            .about-image-wrap img{height:300px}
+            .location-layout{grid-template-columns:1fr}
+            .map-wrap{height:300px}
+        }
+        @media(max-width:640px){
+            .section{padding:64px 16px}
+            .categories-grid{grid-template-columns:1fr}
+            .contact-grid{grid-template-columns:1fr}
+            .gallery-grid{grid-template-columns:1fr}
+            .hero-stats{gap:24px}
+            .hero-buttons .btn{flex:1;justify-content:center;min-width:0}
+            .hero-buttons{flex-direction:column}
+            .hero-buttons .btn{width:100%}
+            body{padding-bottom:68px}
+        }
+        @media(max-width:480px){
+            .info-card{padding:24px}
+            .availability-banner{padding:36px 24px}
         }
     </style>
 </head>
 <body>
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h1>RBOT Electronics</h1>
-            <p>Quality Electronic Components for Every Project</p>
-            <div class="hero-buttons">
-                <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
-                    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/>
-                    </svg>
-                    Chat on WhatsApp
-                </a>
-                <a href="tel:+919809384767" class="btn btn-secondary">
-                    <span class="material-symbols-rounded">phone</span>
-                    Call Now
-                </a>
+
+<!-- ═══════════════════ HERO ════════════════════════ -->
+<section class="hero">
+    <div class="hero-mesh"></div>
+    <div class="hero-grid"></div>
+    <div class="container">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            Open Today · 9:30 AM – 7:30 PM
+        </div>
+        <h1>RBOT<br><span>Electronics</span></h1>
+        <p class="hero-sub">Quality components for every project — Arduino, ESP32, sensors, tools &amp; more. Right here in Palakkad.</p>
+        <div class="hero-buttons">
+            <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
+                <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/></svg>
+                Chat on WhatsApp
+            </a>
+            <a href="tel:+919809384767" class="btn btn-ghost" style="color:#fff;border-color:rgba(255,255,255,.25)">
+                <span class="material-symbols-rounded" style="font-size:18px">phone</span>
+                +91 98093 84767
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-num">500+</div>
+                <div class="stat-label">Products</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">7</div>
+                <div class="stat-label">Days Open</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-num">10+</div>
+                <div class="stat-label">Years Serving</div>
             </div>
         </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section class="section gallery-wrapper">
-        <div class="container">
-            <div class="gallery-header">
-                <h2 class="section-title">Our Store</h2>
-            </div>
-            <div class="gallery-grid">
-                <div class="gallery-item">
-                    <img src="front.webp" alt="RBOT Electronics storefront">
-                    <div class="gallery-overlay">
-                        <span class="material-symbols-rounded gallery-overlay-icon">image</span>
-                    </div>
-                </div>
-                <div class="gallery-item">
-                    <img src="in.webp" alt="Inside RBOT Electronics store">
-                    <div class="gallery-overlay">
-                        <span class="material-symbols-rounded gallery-overlay-icon">image</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Categories Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Product Categories</h2>
-            <div class="categories-grid">
-                <div class="category-card">
-                    <div class="category-icon material-symbols-rounded">memory</div>
-                    <h3>Arduino Boards</h3>
-                    <p>Uno, Nano, Mega and compatible boards for all your projects</p>
-                </div>
-
-                <div class="category-card">
-                    <div class="category-icon material-symbols-rounded">wifi</div>
-                    <h3>ESP32 & WiFi Modules</h3>
-                    <p>ESP32, ESP8266, and other WiFi/Bluetooth modules for IoT</p>
-                </div>
-
-                <div class="category-card">
-                    <div class="category-icon material-symbols-rounded">sensors</div>
-                    <h3>Sensors</h3>
-                    <p>Temperature, humidity, motion, ultrasonic, and many more sensors</p>
-                </div>
-
-                <div class="category-card">
-                    <div class="category-icon material-symbols-rounded">electrical_services</div>
-                    <h3>Electronic Components</h3>
-                    <p>Resistors, capacitors, LEDs, transistors, ICs, and more</p>
-                </div>
-
-                <div class="category-card">
-                    <div class="category-icon material-symbols-rounded">cable</div>
-                    <h3>Cables & Accessories</h3>
-                    <p>Jumper wires, USB cables, breadboards, and project accessories</p>
-                </div>
-
-                <div class="category-card">
-                    <div class="category-icon material-symbols-rounded">construction</div>
-                    <h3>Tools & Kits</h3>
-                    <p>Soldering tools, multimeters, and starter kits for beginners</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Availability Card -->
-    <section class="section">
-        <div class="container">
-            <div class="availability-card">
-                <h3>All Items Available in Stock</h3>
-                <p>We maintain a wide inventory of electronic components and modules. Contact us now to check availability and pricing for your specific needs.</p>
-                <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
-                    <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/>
-                    </svg>
-                    Inquire Now on WhatsApp
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- About Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">About RBOT Electronics</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Your Trusted Electronics Partner</h3>
-                    <p>Located near Railway Station in Palakkad, RBOT Electronics has been serving the local community with quality electronic components and modules for students, hobbyists, and professionals.</p>
-                    <p>Whether you're working on Arduino projects, IoT systems, or general electronics, we have the components you need at competitive prices with expert guidance.</p>
-
-                    <div class="features-list">
-                        <div class="feature-item">
-                            <span class="material-symbols-rounded feature-icon">location_on</span>
-                            <span>Convenient location near Railway Station</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="material-symbols-rounded feature-icon">inventory_2</span>
-                            <span>Wide range of quality products</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="material-symbols-rounded feature-icon">support_agent</span>
-                            <span>Expert advice and friendly support</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="material-symbols-rounded feature-icon">local_shipping</span>
-                            <span>Fast and reliable service</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="about-image">
-                    <img src="in.webp" alt="RBOT Electronics interior">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Location Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Visit Our Store</h2>
-            <div class="location-content">
-                <div class="location-info">
-                    <h3>Store Location</h3>
-
-                    <div class="info-item">
-                        <span class="material-symbols-rounded info-item-icon">location_on</span>
-                        <div class="info-item-content">
-                            <strong>Address</strong>
-                            <span>S.J. Complex Town, Railway Station Rd, Parakkunnam, Palakkad, Kerala 678001</span>
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <span class="material-symbols-rounded info-item-icon">schedule</span>
-                        <div class="info-item-content">
-                            <strong>Business Hours</strong>
-                            <span>9:30 AM – 7:30 PM<br>Monday to Sunday</span>
-                        </div>
-                    </div>
-
-                    <div class="info-item">
-                        <span class="material-symbols-rounded info-item-icon">phone</span>
-                        <div class="info-item-content">
-                            <strong>Phone</strong>
-                            <span><a href="tel:+919809384767">+91 98093 84767</a></span>
-                        </div>
-                    </div>
-
-                    <a href="https://maps.google.com/?q=S.J.+Complex+Town+Railway+Station+Rd+Parakkunnam+Palakkad+Kerala+678001" target="_blank" class="btn btn-dark" style="margin-top: 28px; width: 100%; justify-content: center;">
-                        <span class="material-symbols-rounded">directions</span>
-                        Get Directions
-                    </a>
-                </div>
-
-                <div class="map-container">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.984479396529!2d76.65142!3d10.77844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba86d5d9de4e9df%3A0x0!2zMTDCsDQ2JzQyLjQiTiA3NsKwMzknMDUuMSJF!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Get In Touch</h2>
-            <div class="contact-cards">
-                <div class="contact-card">
-                    <svg class="contact-icon whatsapp-icon" style="font-size: 48px; width: 48px; height: 48px;" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/>
-                    </svg>
-                    <h3>WhatsApp</h3>
-                    <p>Quick response for all your inquiries</p>
-                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
-                        <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/>
-                        </svg>
-                        Chat Now
-                    </a>
-                </div>
-
-                <div class="contact-card">
-                    <span class="material-symbols-rounded contact-icon">phone</span>
-                    <h3>Call Us</h3>
-                    <p>Speak directly with our team</p>
-                    <a href="tel:+919809384767" class="btn btn-secondary">
-                        <span class="material-symbols-rounded">phone</span>
-                        +91 98093 84767
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <h3>RBOT Electronics</h3>
-            <p>S.J. Complex Town, Railway Station Rd, Parakkunnam</p>
-            <p>Palakkad, Kerala 678001</p>
-            <p><a href="tel:+919809384767">+91 98093 84767</a></p>
-
-            <div class="footer-divider"></div>
-
-            <p class="footer-tagline">Designed for local customer convenience</p>
-        </div>
-    </footer>
-
-    <!-- Sticky Action Bar (Mobile Only) -->
-    <div class="sticky-bar">
-        <a href="tel:+919809384767" class="btn btn-dark">
-            <span class="material-symbols-rounded">phone</span>
-            Call
-        </a>
-        <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
-            <svg class="whatsapp-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/>
-            </svg>
-            Chat
-        </a>
     </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ ABOUT ════════════════════════ -->
+<section class="section">
+    <div class="container">
+        <div class="about-layout">
+            <div class="about-image-wrap">
+                <img src="front.webp" alt="RBOT Electronics storefront">
+                <div class="about-image-badge">
+                    <div class="badge-icon"><span class="material-symbols-rounded" style="font-size:20px">storefront</span></div>
+                    <div>
+                        <div class="badge-text-top">RBOT Electronics</div>
+                        <div class="badge-text-bot">Near Railway Station, Palakkad</div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-text-col">
+                <div class="section-label"><span class="material-symbols-rounded" style="font-size:14px">info</span> About Us</div>
+                <h2 class="section-title">Your Trusted Electronics Partner</h2>
+                <p class="section-subtitle" style="margin-bottom:0">Located steps from Palakkad Railway Station, we serve students, hobbyists and professionals with quality components, expert advice, and a friendly experience.</p>
+                <div class="about-features">
+                    <div class="feature-item">
+                        <div class="feature-icon"><span class="material-symbols-rounded" style="font-size:20px">location_on</span></div>
+                        <span class="feature-text">Convenient location near Railway Station</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><span class="material-symbols-rounded" style="font-size:20px">inventory_2</span></div>
+                        <span class="feature-text">Wide range of genuine, quality products</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><span class="material-symbols-rounded" style="font-size:20px">support_agent</span></div>
+                        <span class="feature-text">Expert guidance and friendly support</span>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><span class="material-symbols-rounded" style="font-size:20px">local_shipping</span></div>
+                        <span class="feature-text">Fast service and quick delivery options</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ STORE GALLERY ════════════════ -->
+<section class="section" style="padding-top:72px;padding-bottom:72px">
+    <div class="container">
+        <div class="section-label"><span class="material-symbols-rounded" style="font-size:14px">photo_library</span> Our Store</div>
+        <h2 class="section-title">Visit Us in Person</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="front.webp" alt="RBOT Electronics storefront">
+                <div class="gallery-item-overlay"><span class="gallery-item-label">Storefront</span></div>
+            </div>
+            <div class="gallery-item">
+                <img src="in.webp" alt="Inside RBOT Electronics">
+                <div class="gallery-item-overlay"><span class="gallery-item-label">Inside the Store</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ LOCATION ═════════════════════ -->
+<section class="section">
+    <div class="container">
+        <div class="section-label"><span class="material-symbols-rounded" style="font-size:14px">map</span> Find Us</div>
+        <h2 class="section-title">How to Reach Us</h2>
+        <div class="location-layout">
+            <div class="info-card">
+                <div class="info-row">
+                    <div class="info-icon"><span class="material-symbols-rounded" style="font-size:22px">location_on</span></div>
+                    <div>
+                        <div class="info-label">Address</div>
+                        <div class="info-val">S.J. Complex Town, Railway Station Rd,<br>Parakkunnam, Palakkad, Kerala 678001</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon"><span class="material-symbols-rounded" style="font-size:22px">schedule</span></div>
+                    <div>
+                        <div class="info-label">Business Hours</div>
+                        <div class="info-val">9:30 AM – 7:30 PM<br>Monday to Sunday</div>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <div class="info-icon"><span class="material-symbols-rounded" style="font-size:22px">phone</span></div>
+                    <div>
+                        <div class="info-label">Phone</div>
+                        <div class="info-val"><a href="tel:+919809384767">+91 98093 84767</a></div>
+                    </div>
+                </div>
+                <a href="https://maps.google.com/?q=S.J.+Complex+Town+Railway+Station+Rd+Parakkunnam+Palakkad+Kerala+678001" target="_blank" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:28px">
+                    <span class="material-symbols-rounded" style="font-size:18px">directions</span>
+                    Get Directions on Maps
+                </a>
+            </div>
+            <div class="map-wrap">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.984479396529!2d76.65142!3d10.77844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba86d5d9de4e9df%3A0x0!2zMTDCsDQ2JzQyLjQiTiA3NsKwMzknMDUuMSJF!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ CATEGORIES ═══════════════════ -->
+<section class="section">
+    <div class="container">
+        <div class="section-label"><span class="material-symbols-rounded" style="font-size:14px">category</span> What We Stock</div>
+        <h2 class="section-title">Product Categories</h2>
+        <div class="categories-grid">
+            <div class="cat-card">
+                <div class="cat-icon"><span class="material-symbols-rounded">memory</span></div>
+                <div class="cat-title">Arduino Boards</div>
+                <p class="cat-desc">Uno, Nano, Mega and compatible boards for all your projects</p>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><span class="material-symbols-rounded">wifi</span></div>
+                <div class="cat-title">ESP32 &amp; WiFi Modules</div>
+                <p class="cat-desc">ESP32, ESP8266, and other WiFi/Bluetooth modules for IoT</p>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><span class="material-symbols-rounded">sensors</span></div>
+                <div class="cat-title">Sensors</div>
+                <p class="cat-desc">Temperature, humidity, motion, ultrasonic, and many more sensors</p>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><span class="material-symbols-rounded">electrical_services</span></div>
+                <div class="cat-title">Electronic Components</div>
+                <p class="cat-desc">Resistors, capacitors, LEDs, transistors, ICs, and more</p>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><span class="material-symbols-rounded">cable</span></div>
+                <div class="cat-title">Cables &amp; Accessories</div>
+                <p class="cat-desc">Jumper wires, USB cables, breadboards, and project accessories</p>
+            </div>
+            <div class="cat-card">
+                <div class="cat-icon"><span class="material-symbols-rounded">construction</span></div>
+                <div class="cat-title">Tools &amp; Kits</div>
+                <p class="cat-desc">Soldering tools, multimeters, and starter kits for beginners</p>
+            </div>
+        </div>
+
+        <!-- availability banner -->
+        <div class="availability-banner" style="margin-top:40px">
+            <h3>All Items Available in Stock</h3>
+            <p>We maintain a wide inventory. Contact us to check availability and pricing for your specific needs.</p>
+            <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn" style="background:#fff;color:var(--accent);font-family:'Syne',sans-serif;font-weight:700;gap:10px">
+                <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/></svg>
+                Inquire Now on WhatsApp
+            </a>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ CONTACT ═══════════════════════ -->
+<section class="section">
+    <div class="container" style="text-align:center">
+        <div class="section-label" style="justify-content:center"><span class="material-symbols-rounded" style="font-size:14px">contact_support</span> Reach Out</div>
+        <h2 class="section-title">Get In Touch</h2>
+        <p style="color:var(--text-2);margin-bottom:44px;font-size:1rem">We're available all week. Reach out via WhatsApp for the fastest response.</p>
+        <div class="contact-grid">
+            <div class="contact-card">
+                <div class="contact-icon-wrap">
+                    <svg style="width:32px;height:32px" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/></svg>
+                </div>
+                <h3>WhatsApp</h3>
+                <p>Quick response for all your inquiries</p>
+                <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
+                    <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/></svg>
+                    Chat Now
+                </a>
+            </div>
+            <div class="contact-card">
+                <div class="contact-icon-wrap">
+                    <span class="material-symbols-rounded" style="font-size:32px">phone</span>
+                </div>
+                <h3>Call Us</h3>
+                <p>Speak directly with our team</p>
+                <a href="tel:+919809384767" class="btn btn-secondary">
+                    <span class="material-symbols-rounded" style="font-size:18px">phone</span>
+                    +91 98093 84767
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ════════════════════════ -->
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-brand">RBOT Electronics</div>
+            <p class="footer-addr">S.J. Complex Town, Railway Station Rd, Parakkunnam<br>Palakkad, Kerala 678001</p>
+            <p class="footer-addr"><a href="tel:+919809384767">+91 98093 84767</a></p>
+            <div class="footer-divider"></div>
+            <div class="footer-tag">Designed for local customer convenience</div>
+        </div>
+    </div>
+</footer>
+
+<!-- ═══════════════════ STICKY BAR ═══════════════════ -->
+<div class="sticky-bar">
+    <a href="tel:+919809384767" class="btn btn-dark">
+        <span class="material-symbols-rounded" style="font-size:18px">phone</span>
+        Call
+    </a>
+    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
+        <svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.67-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.076 4.487.709.306 1.262.489 1.694.625.71.227 1.355.196 1.864.118.568-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421-7.403h-.004c-1.552 0-3.056.756-4.041 2.025-.985 1.268-1.386 2.905-.899 4.529.487 1.624 1.931 2.838 3.56 2.938 1.628.1 3.177-.721 4.039-2.197.862-1.476.862-3.513 0-4.989-.862-1.476-2.411-2.306-4.04-2.306"/></svg>
+        WhatsApp
+    </a>
+</div>
+
 </body>
 </html>
