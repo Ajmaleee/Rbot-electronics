@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RBOT Electronics - Your trusted destination for quality electronic components and modules in Palakkad, Kerala. Arduino, ESP32, sensors, and more.">
+    <title>RBOT Electronics | Electronic Components in Palakkad</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #212121;
+            background-color: #fafafa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%);
+            color: white;
+            padding: 80px 16px 100px;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            letter-spacing: -0.5px;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            margin-bottom: 32px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: #25d366;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: #1976d2;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .material-icons {
+            font-size: 20px;
+        }
+
+        /* Sticky Action Bar */
+        .sticky-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            padding: 12px 16px;
+            display: flex;
+            gap: 12px;
+            z-index: 1000;
+        }
+
+        .sticky-bar .btn {
+            flex: 1;
+            justify-content: center;
+            padding: 16px;
+            font-size: 0.9375rem;
+        }
+
+        @media (min-width: 768px) {
+            .sticky-bar {
+                display: none;
+            }
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 60px 16px;
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 40px;
+            color: #212121;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: box-shadow 0.3s, transform 0.3s;
+            text-align: center;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+        }
+
+        .product-icon {
+            font-size: 48px;
+            color: #1976d2;
+            margin-bottom: 16px;
+        }
+
+        .product-card h3 {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: #212121;
+        }
+
+        .product-card p {
+            font-size: 0.875rem;
+            color: #757575;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .product-card .btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 0.9375rem;
+        }
+
+        /* About Section */
+        .about {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: #424242;
+            margin-bottom: 24px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 32px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .feature .material-icons {
+            color: #1976d2;
+            font-size: 28px;
+        }
+
+        .feature span {
+            font-weight: 500;
+            color: #212121;
+        }
+
+        /* Location Section */
+        .location-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .location-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .location-info {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .location-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #212121;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .info-item .material-icons {
+            color: #1976d2;
+            font-size: 24px;
+        }
+
+        .info-item div {
+            flex: 1;
+        }
+
+        .info-item strong {
+            display: block;
+            margin-bottom: 4px;
+            color: #212121;
+        }
+
+        .info-item span {
+            color: #616161;
+            line-height: 1.6;
+        }
+
+        .map-container {
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            height: 400px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Contact Section */
+        .contact-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-align: center;
+        }
+
+        .contact-card .material-icons {
+            font-size: 48px;
+            color: #1976d2;
+            margin-bottom: 16px;
+        }
+
+        .contact-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+            color: #212121;
+        }
+
+        .contact-card p {
+            color: #616161;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: #212121;
+            color: white;
+            padding: 40px 16px 80px;
+            text-align: center;
+        }
+
+        footer h3 {
+            font-size: 1.5rem;
+            margin-bottom: 16px;
+        }
+
+        footer p {
+            color: #bdbdbd;
+            margin-bottom: 8px;
+        }
+
+        footer a {
+            color: #64b5f6;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer-divider {
+            height: 1px;
+            background: #424242;
+            margin: 24px auto;
+            max-width: 400px;
+        }
+
+        .footer-tagline {
+            font-size: 0.875rem;
+            color: #9e9e9e;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 767px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 40px 16px;
+                margin-bottom: 60px;
+            }
+
+            .section-title {
+                font-size: 1.75rem;
+            }
+
+            .about {
+                padding: 24px;
+            }
+
+            .location-info {
+                padding: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>RBOT Electronics</h1>
+            <p>All electronics &amp; components in one place</p>
+            <div class="hero-buttons">
+                <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
+                    <span class="material-icons">chat</span>
+                    Chat on WhatsApp
+                </a>
+                <a href="tel:+919809384767" class="btn btn-secondary">
+                    <span class="material-icons">phone</span>
+                    Call Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Our Product Categories</h2>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-icon material-icons">memory</div>
+                    <h3>Arduino Boards</h3>
+                    <p>Uno, Nano, Mega and compatible boards for all your projects</p>
+                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20Arduino%20boards" class="btn btn-primary">
+                        <span class="material-icons">chat</span>
+                        Inquire on WhatsApp
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon material-icons">wifi</div>
+                    <h3>ESP32 &amp; WiFi Modules</h3>
+                    <p>ESP32, ESP8266, and other WiFi/Bluetooth modules for IoT</p>
+                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20ESP32%20and%20WiFi%20modules" class="btn btn-primary">
+                        <span class="material-icons">chat</span>
+                        Inquire on WhatsApp
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon material-icons">sensors</div>
+                    <h3>Sensors</h3>
+                    <p>Temperature, humidity, motion, ultrasonic, and many more sensors</p>
+                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20sensors" class="btn btn-primary">
+                        <span class="material-icons">chat</span>
+                        Inquire on WhatsApp
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon material-icons">electrical_services</div>
+                    <h3>Electronic Components</h3>
+                    <p>Resistors, capacitors, LEDs, transistors, ICs, and more</p>
+                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20electronic%20components" class="btn btn-primary">
+                        <span class="material-icons">chat</span>
+                        Inquire on WhatsApp
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon material-icons">cable</div>
+                    <h3>Cables &amp; Accessories</h3>
+                    <p>Jumper wires, USB cables, breadboards, and project accessories</p>
+                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20cables%20and%20accessories" class="btn btn-primary">
+                        <span class="material-icons">chat</span>
+                        Inquire on WhatsApp
+                    </a>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-icon material-icons">build</div>
+                    <h3>Tools &amp; Kits</h3>
+                    <p>Soldering tools, multimeters, and starter kits for beginners</p>
+                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20tools%20and%20kits" class="btn btn-primary">
+                        <span class="material-icons">chat</span>
+                        Inquire on WhatsApp
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">About RBOT Electronics</h2>
+            <div class="about">
+                <p>Located near Railway Station, RBOT Electronics provides a wide range of electronic components and modules for students, hobbyists, and professionals in Palakkad.</p>
+                <p>Whether you're working on Arduino projects, IoT systems, or general electronics, we have the components you need at competitive prices with expert guidance.</p>
+
+                <div class="features">
+                    <div class="feature">
+                        <span class="material-icons">location_on</span>
+                        <span>Easy Access Location</span>
+                    </div>
+                    <div class="feature">
+                        <span class="material-icons">inventory_2</span>
+                        <span>Wide Range of Products</span>
+                    </div>
+                    <div class="feature">
+                        <span class="material-icons">support_agent</span>
+                        <span>Friendly Support</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Visit Our Store</h2>
+            <div class="location-content">
+                <div class="location-info">
+                    <h3>Find Us Here</h3>
+
+                    <div class="info-item">
+                        <span class="material-icons">location_on</span>
+                        <div>
+                            <strong>Address</strong>
+                            <span>S.J. Complex Town, Railway Station Rd, Parakkunnam, Palakkad, Kerala 678001</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="material-icons">schedule</span>
+                        <div>
+                            <strong>Business Hours</strong>
+                            <span>Open 9:30 AM – 7:30 PM<br>Monday to Sunday</span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="material-icons">phone</span>
+                        <div>
+                            <strong>Phone</strong>
+                            <span><a href="tel:+919809384767">+91 98093 84767</a></span>
+                        </div>
+                    </div>
+
+                    <a href="https://maps.google.com/?q=S.J.+Complex+Town+Railway+Station+Rd+Parakkunnam+Palakkad+Kerala+678001" target="_blank" class="btn btn-secondary" style="margin-top: 20px; width: 100%; justify-content: center;">
+                        <span class="material-icons">directions</span>
+                        Get Directions
+                    </a>
+                </div>
+
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3917.984479396529!2d76.65142!3d10.77844!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba86d5d9de4e9df%3A0x0!2zMTDCsDQ2JzQyLjQiTiA3NsKwMzknMDUuMSJF!5e0!3m2!1sen!2sin!4v1234567890" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-cards">
+                <div class="contact-card">
+                    <span class="material-icons">chat</span>
+                    <h3>WhatsApp</h3>
+                    <p>Quick response for all your queries</p>
+                    <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
+                        <span class="material-icons">chat</span>
+                        Chat Now
+                    </a>
+                </div>
+
+                <div class="contact-card">
+                    <span class="material-icons">phone</span>
+                    <h3>Call Us</h3>
+                    <p>Speak directly with our team</p>
+                    <a href="tel:+919809384767" class="btn btn-secondary">
+                        <span class="material-icons">phone</span>
+                        +91 98093 84767
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <h3>RBOT Electronics</h3>
+            <p>S.J. Complex Town, Railway Station Rd, Parakkunnam</p>
+            <p>Palakkad, Kerala 678001</p>
+            <p><a href="tel:+919809384767">+91 98093 84767</a></p>
+
+            <div class="footer-divider"></div>
+
+            <p class="footer-tagline">Designed for local customer convenience</p>
+        </div>
+    </footer>
+
+    <!-- Sticky Action Bar (Mobile Only) -->
+    <div class="sticky-bar">
+        <a href="tel:+919809384767" class="btn btn-secondary">
+            <span class="material-icons">phone</span>
+            Call
+        </a>
+        <a href="https://wa.me/919809384767?text=Hi%2C%20I%20want%20to%20inquire%20about%20products" class="btn btn-primary">
+            <span class="material-icons">chat</span>
+            WhatsApp
+        </a>
+    </div>
+</body>
+</html>
